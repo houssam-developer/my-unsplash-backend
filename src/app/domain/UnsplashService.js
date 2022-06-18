@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const fileService = require('./FileService');
 
 const unsplashService = (function () {
 
@@ -8,11 +9,11 @@ const unsplashService = (function () {
 	const osSep = path.sep;
 
 	function loadAllPhotos() {
-		const targetPhotosDir = path.parse(`${rootApp}${osSep}public${osSep}uploads`);
-		console.log(`📦 #targetPhotosDir: `, targetPhotosDir);
-		fs.readdir(path.format(targetPhotosDir), (err, files) => {
-			if (err) { console.log(`🚫 readdir() ERR: ${err}`); return; }
 
+		let targetPath = fileService.getPathString([rootApp, 'public', 'uploads']);
+
+		fs.readdir(targetPath, (err, files) => {
+			if (err) { console.log(`🚫 readdir() ERR: ${err}`); return; }
 			files.forEach(it => console.log('🔁 #it:', it))
 		})
 	}
