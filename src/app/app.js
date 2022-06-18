@@ -15,8 +15,8 @@ const startup = () => {
 
 	app.get('/', (req, res) => { return res.send('Hello World!'); });
 	app.get('/photos', (req, res) => {
-		unsplashService.loadAllPhotos();
-		res.send('ok')
+		unsplashService.loadAllPhotos()
+			.then(it => res.send({ photos: it }))
 	});
 
 

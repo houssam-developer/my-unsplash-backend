@@ -3,19 +3,25 @@ const path = require('path');
 const fileService = require('./FileService');
 
 const unsplashService = (function () {
-
 	console.log(`🚀 unsplashService.init() }`, rootApp);
+
 
 	const osSep = path.sep;
 
 	function loadAllPhotos() {
 
-		let targetPath = fileService.getPathString([rootApp, 'public', 'uploads']);
+		let targetFolderPhotosPath = fileService.getPathString([rootApp, 'public', 'uploads']);
 
-		fs.readdir(targetPath, (err, files) => {
-			if (err) { console.log(`🚫 readdir() ERR: ${err}`); return; }
-			files.forEach(it => console.log('🔁 #it:', it))
-		})
+		let photosNames = new Promise((resolve, reject) => {
+			fs.readdir(targetFolderPhotosPath, (err, files) => {
+				if (err) { console.log(`🚫 readdir() ERR: ${err}`); return; }
+
+				files;
+				resolve(files);
+			});
+		});
+
+		return photosNames;
 	}
 
 	return {
