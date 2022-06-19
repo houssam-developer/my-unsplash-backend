@@ -10,6 +10,11 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
 	console.log(`📡 req: `, req.body);
+
+	// check photo
+	// save photo
+	// return resolve OK || FAILED
+	unsplashService.saveNewPhoto(req.body);
 })
 
 

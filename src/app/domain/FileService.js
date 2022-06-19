@@ -7,7 +7,11 @@ const fileService = (function () {
 		let pathVal = '';
 		const osSeparator = path.sep;
 
-		args.forEach(it => { pathVal += `${it}${osSeparator}` });
+		args.forEach(it => {
+			pathVal += `${it}${osSeparator}`
+		});
+
+		console.log(`🚧 [FileService] getPathString() #pathVal: ${pathVal}`);
 
 		// remove path without separator at last of path
 		return pathVal.slice(0, pathVal.length - osSeparator.length);

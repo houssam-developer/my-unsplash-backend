@@ -9,7 +9,7 @@ const unsplashService = (function () {
 	const osSep = path.sep;
 
 	function loadAllPhotos() {
-
+		console.log(`🚧 loadPhotos()`);
 		let targetFolderPhotosPath = fileService.getPathString([rootApp, 'public', 'uploads']);
 
 		let photosNames = new Promise((resolve, reject) => {
@@ -21,11 +21,35 @@ const unsplashService = (function () {
 			});
 		});
 
+		let targetDBFilePath = fileService.getPathString([rootApp, 'src', 'app', 'data', 'db.json']);
+		console.log(`📡 dbJsonPath: `, targetDBFilePath);
+
+		let dbJson;
+		fs.readFile(targetDBFilePath, 'utf-8', (err, data) => {
+			dbJson = JSON.parse(data);
+
+			console.log(`🏁 #dbJson: `, dbJson[0]);
+		});
+
+
+
+
+
 		return photosNames;
 	}
 
+	function saveNewPhoto(photo) {
+		console.log(`🚧 saveNewPhotos() #photo: ${JSON.stringify(photo)}`);
+
+		// read photo
+		// check photo model is map to PhotoModel
+		// if photo exists update rank
+		// else save photo to db.json
+	}
+
 	return {
-		loadAllPhotos
+		loadAllPhotos,
+		saveNewPhoto
 	}
 
 })();
