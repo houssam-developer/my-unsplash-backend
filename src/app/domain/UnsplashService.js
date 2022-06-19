@@ -1,6 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const fileService = require('./FileService');
+const { v4: uuidv4 } = require('uuid');
+
 
 const unsplashService = (function () {
 	console.log(`🚀 unsplashService.init() }`, rootApp);
@@ -44,11 +46,24 @@ const unsplashService = (function () {
 		// if photo exists update rank
 		// else save photo to db.json
 
-		let photosDataUpdated = [photo, ...photosData];
+		// if (photosData.filter(it => it.url === photo.url)) {
+		// 	console.log(`|__ 🛃 already exists() #photo.url: ${photo.url}`);
+		// 	return;
+		// }
 
-		//console.log(`🏁 photoDataUpdated: `, photosDataUpdated);
+		const newPhoto = {
+			id: uuidv4(),
+			label: photo.label,
+			url: photo.url
 
-		fs.writeFile(targetDBFilePath, JSON.stringify(photosDataUpdated), (err) => {
+		};
+		const photosDataUpdated = [newPhoto, ...photosData];
+
+		const photosJsonString = JSON.stringify(photosDataUpdated);
+		//		console.log(`🏁 photoJsonString: `, photosJsonString);
+		console.log(`🏁 photoUpdated: `, photosDataUpdated);
+
+		fs.writeFile(targetDBFilePath, photosJsonString, (err) => {
 			if (err) { console.log(`🚫 readFile() db.json failed #err: ${err}`); return; }
 			console.log(`📥 db.json updated`);
 		});
