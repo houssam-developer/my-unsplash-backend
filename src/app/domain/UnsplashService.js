@@ -6,7 +6,8 @@ const unsplashService = (function () {
 	console.log(`🚀 unsplashService.init() }`, rootApp);
 
 
-	const osSep = path.sep;
+	const targetDBFilePath = fileService.getPathString([rootApp, 'src', 'app', 'data', 'db.json']);
+	let photosData = [];
 
 	function loadAllPhotos() {
 		console.log(`🚧 loadPhotos()`);
@@ -20,20 +21,19 @@ const unsplashService = (function () {
 		// 	});
 		// });
 
-		let targetDBFilePath = fileService.getPathString([rootApp, 'src', 'app', 'data', 'db.json']);
 		console.log(`📡 dbJsonPath: `, targetDBFilePath);
-
-		let photosData = new Promise((resolve, reject) => {
+		let photosDataPromise = new Promise((resolve, reject) => {
 			fs.readFile(targetDBFilePath, 'utf-8', (err, data) => {
 				try {
-					resolve(JSON.parse(data));
+					photosData = JSON.parse(data);
+					resolve(photosData);
 				} catch (err) {
 					reject(err);
 				}
 			});
 		});
 
-		return photosData;
+		return photosDataPromise;
 	}
 
 	function saveNewPhoto(photo) {
@@ -43,6 +43,15 @@ const unsplashService = (function () {
 		// check photo model is map to PhotoModel
 		// if photo exists update rank
 		// else save photo to db.json
+
+		let photosDataUpdated = [photo, ...photosData];
+
+		//console.log(`🏁 photoDataUpdated: `, photosDataUpdated);
+
+		fs.writeFile(targetDBFilePath, JSON.stringify(photosDataUpdated), (err) => {
+			if (err) { console.log(`🚫 readFile() db.json failed #err: ${err}`); return; }
+			console.log(`📥 db.json updated`);
+		});
 	}
 
 	return {
