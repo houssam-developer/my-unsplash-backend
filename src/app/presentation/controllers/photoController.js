@@ -8,5 +8,9 @@ router.get('/', (req, res) => {
 		.then(it => res.send({ photos: it }))
 });
 
+router.post('/', (req, res) => {
+	console.log(`📡 req: `, req.body);
+})
+
 
 module.exports = router;

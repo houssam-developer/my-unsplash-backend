@@ -5,6 +5,7 @@ const photoController = require('./presentation/controllers/photoController');
 function startup() {
 	const app = express();
 	app.use(cors());
+	app.use(express.json());
 
 	app.get('/', (req, res) => { return res.send('Hello World!'); });
 	app.use('/photos', photoController);
