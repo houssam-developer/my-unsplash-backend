@@ -10,32 +10,30 @@ const unsplashService = (function () {
 
 	function loadAllPhotos() {
 		console.log(`🚧 loadPhotos()`);
-		let targetFolderPhotosPath = fileService.getPathString([rootApp, 'public', 'uploads']);
+		//let targetFolderPhotosPath = fileService.getPathString([rootApp, 'public', 'uploads']);
+		// let photosNames = new Promise((resolve, reject) => {
+		// 	fs.readdir(targetFolderPhotosPath, (err, files) => {
+		// 		if (err) { console.log(`🚫 readdir() ERR: ${err}`); return; }
 
-		let photosNames = new Promise((resolve, reject) => {
-			fs.readdir(targetFolderPhotosPath, (err, files) => {
-				if (err) { console.log(`🚫 readdir() ERR: ${err}`); return; }
-
-				files;
-				resolve(files);
-			});
-		});
+		// 		files;
+		// 		resolve(files);
+		// 	});
+		// });
 
 		let targetDBFilePath = fileService.getPathString([rootApp, 'src', 'app', 'data', 'db.json']);
 		console.log(`📡 dbJsonPath: `, targetDBFilePath);
 
-		let dbJson;
-		fs.readFile(targetDBFilePath, 'utf-8', (err, data) => {
-			dbJson = JSON.parse(data);
-
-			console.log(`🏁 #dbJson: `, dbJson[0]);
+		let photosData = new Promise((resolve, reject) => {
+			fs.readFile(targetDBFilePath, 'utf-8', (err, data) => {
+				try {
+					resolve(JSON.parse(data));
+				} catch (err) {
+					reject(err);
+				}
+			});
 		});
 
-
-
-
-
-		return photosNames;
+		return photosData;
 	}
 
 	function saveNewPhoto(photo) {
