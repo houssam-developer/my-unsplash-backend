@@ -23,9 +23,9 @@ const assertCommon = ({ x, isValidFn }) => {
 // --------------------------------------------------------------------------------------------------
 
 // --- DECORATORS
-const assertString = x => assertCommon({ x, isValidFn: isValidString });
-const assertArray = x => assertCommon({ x, isValidFn: isValidArray });
-const assertURL = x => assertCommon({ x, isValidFn: isValidUrl });
+const assertIsValidString = x => assertCommon({ x, isValidFn: isValidString });
+const assertIsValidArray = x => assertCommon({ x, isValidFn: isValidArray });
+const assertIsValidURL = x => assertCommon({ x, isValidFn: isValidUrl });
 
 // const isAssertionStringFailed = (targetVal) => isAssertionFailed({ targetVal, isNotValidFn: isNotValidAttributeAsString });
 // const isAssertionPlayRateFailed = (targetVal) => isAssertionFailed({ targetVal, isNotValidFn: isNotNumberFromString });
@@ -68,7 +68,7 @@ const assertURL = x => assertCommon({ x, isValidFn: isValidUrl });
 
 
 module.exports = {
-	assertString,
-	assertArray,
-	assertURL
+	assertIsValidString,
+	assertIsValidArray,
+	assertIsValidURL
 }

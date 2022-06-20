@@ -1,8 +1,17 @@
 const express = require('express');
 const unsplashService = require('../../domain/UnsplashService');
-const { assertString, assertURL } = require('../../utils/common-assertions');
+const { assertIsValidURL, assertIsValidString } = require('../../utils/common-assertions');
 const router = express.Router();
 
+
+function sendAssertion(res, causeArg = '') {
+	return res.send({
+		assertion: {
+			status: 'failed',
+			cause: causeArg
+		}
+	});
+}
 
 router.get('/', (req, res) => {
 	console.log(`📦 photoController: `);
@@ -16,34 +25,12 @@ router.post('/', (req, res) => {
 	const photo = req.body;
 	if (!photo) {
 		console.log(`📡 [PhotoController] post() photo -> isUnknown`);
-		return res.send({
-			assertion: {
-				status: 'failed',
-				cause: 'object'
-			}
-		});
-	}
-	if (!assertString(photo.label)) {
-		return res.send({
-			assertion: {
-				status: 'failed',
-				cause: 'label'
-			}
-		});
-	}
-	if (!assertURL(photo.url)) {
-		return res.send({
-			assertion: {
-				status: 'failed',
-				cause: 'url'
-			}
-		});
-
+		return sendAssertion(res, 'object');
 	}
 
-	// check photo
-	// save photo
-	// return resolve OK || FAILED
+	if (!assertIsValidString(photo.label)) { return sendAssertion(res, 'label'); }
+	if (!assertIsValidURL(photo.url)) { return sendAssertion(res, 'url'); }
+
 	unsplashService.saveNewPhoto(req.body);
 })
 
