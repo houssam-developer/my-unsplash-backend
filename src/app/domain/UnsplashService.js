@@ -57,7 +57,7 @@ const unsplashService = (function () {
 			.readFromJson()
 			.then(photos => {
 				const photosDataUpdated = photos.filter(it => it.id !== id);
-				console.log(`🚧 [UnsplashService] deletePhoto() #photoDataUpdated: `, photosDataUpdated);
+				//console.log(`🚧 [UnsplashService] deletePhoto() #photoDataUpdated: `, photosDataUpdated);
 				fileService.writeToJSON(photosDataUpdated);
 			})
 			.catch(err => console.log(`🚫  [UnsplashService] deletePhoto() #err: `, err))

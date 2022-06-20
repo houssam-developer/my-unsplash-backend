@@ -11,6 +11,8 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
 	console.log(`📡 req: `, req.body);
 
+	const photo = req.body;
+
 	// check photo
 	// save photo
 	// return resolve OK || FAILED
