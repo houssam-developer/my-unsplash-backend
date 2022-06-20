@@ -35,7 +35,6 @@ const fileService = (function () {
 		const photosJsonString = JSON.stringify(photosDataUpdated);
 		//		console.log(`🏁 photoJsonString: `, photosJsonString);
 
-
 		fs.writeFile(targetDBFilePath, photosJsonString, (err) => {
 			if (err) { console.log(`🚫 readFile() db.json failed #err: ${err}`); return; }
 			console.log(`\t|__ 📥 [FileService] writeToJSON() -> db.json updated`);

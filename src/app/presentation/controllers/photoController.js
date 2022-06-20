@@ -14,9 +14,26 @@ function sendAssertion(res, causeArg = '') {
 }
 
 router.get('/', (req, res) => {
-	console.log(`📦 photoController: `);
-	unsplashService.loadAllPhotos()
+	console.log(`📡 [PhotoController] get() `);
+
+	const keyword = req.query.keyword;
+	if (keyword) {
+		console.log(`📡 [PhotoController] getByKeyword() #keyword: ${keyword}`,);
+		return unsplashService.findByKeyword(keyword)
+			.then(photos => res.send({ photos }))
+			.catch(err => {
+				console.log(`🚩 [PhotoController] get() -> findByKeyword() #err: `, err);
+				res.send({ photos: [] });
+			})
+	}
+
+	unsplashService.findAll()
 		.then(it => res.send({ photos: it }))
+		.catch(err => {
+			console.log(`🚩 [PhotoController] get() -> findAll() #err: `, err);
+			res.send({ photos: [] });
+		})
+
 });
 
 router.post('/', (req, res) => {

@@ -9,12 +9,27 @@ const unsplashService = (function () {
 
 	let photosData = [];
 
-	function loadAllPhotos() {
+	function findAll() {
 		console.log(`🚧 [UnsplashService] loadPhotos()`);
 
 		let photosDataPromise = new Promise((resolve, reject) => {
 			fileService.readFromJson()
 				.then(photos => resolve(photos))
+				.catch(err => reject(err));
+		});
+
+		return photosDataPromise;
+	}
+
+	function findByKeyword(keyword) {
+		console.log(`🚧 [UnsplashService] findByKeyword()`);
+		const keywordVal = keyword.toLowerCase();
+		let photosDataPromise = new Promise((resolve, reject) => {
+			fileService.readFromJson()
+				.then(photos => {
+					const photosFiltered = photos.filter(it => it.label.toLowerCase().includes(keywordVal));
+					resolve(photosFiltered);
+				})
 				.catch(err => reject(err));
 		});
 
@@ -64,7 +79,8 @@ const unsplashService = (function () {
 	}
 
 	return {
-		loadAllPhotos,
+		findAll,
+		findByKeyword,
 		saveNewPhoto,
 		deletePhoto
 	}
