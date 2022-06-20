@@ -17,5 +17,12 @@ router.post('/', (req, res) => {
 	unsplashService.saveNewPhoto(req.body);
 })
 
+router.delete('/:id', (req, res) => {
+	let photoId = req.params.id;
+	console.log(` 🛃 [PhotoController] delete() #id: `, photoId);
+
+	unsplashService.deletePhoto(photoId);
+});
+
 
 module.exports = router;

@@ -7,39 +7,22 @@ const { v4: uuidv4 } = require('uuid');
 const unsplashService = (function () {
 	console.log(`🚀 unsplashService.init() }`, rootApp);
 
-
-	const targetDBFilePath = fileService.getPathString([rootApp, 'src', 'app', 'data', 'db.json']);
 	let photosData = [];
 
 	function loadAllPhotos() {
-		console.log(`🚧 loadPhotos()`);
-		//let targetFolderPhotosPath = fileService.getPathString([rootApp, 'public', 'uploads']);
-		// let photosNames = new Promise((resolve, reject) => {
-		// 	fs.readdir(targetFolderPhotosPath, (err, files) => {
-		// 		if (err) { console.log(`🚫 readdir() ERR: ${err}`); return; }
+		console.log(`🚧 [UnsplashService] loadPhotos()`);
 
-		// 		files;
-		// 		resolve(files);
-		// 	});
-		// });
-
-		console.log(`📡 dbJsonPath: `, targetDBFilePath);
 		let photosDataPromise = new Promise((resolve, reject) => {
-			fs.readFile(targetDBFilePath, 'utf-8', (err, data) => {
-				try {
-					photosData = JSON.parse(data);
-					resolve(photosData);
-				} catch (err) {
-					reject(err);
-				}
-			});
+			fileService.readFromJson()
+				.then(photos => resolve(photos))
+				.catch(err => reject(err));
 		});
 
 		return photosDataPromise;
 	}
 
 	function saveNewPhoto(photo) {
-		console.log(`🚧 saveNewPhotos() #photo: ${JSON.stringify(photo)}`);
+		console.log(`🚧 [UnsplashService] saveNewPhotos() #photo: ${JSON.stringify(photo)}`);
 
 		// read photo
 		// check photo model is map to PhotoModel
@@ -57,21 +40,33 @@ const unsplashService = (function () {
 			url: photo.url
 
 		};
-		const photosDataUpdated = [newPhoto, ...photosData];
+		fileService
+			.readFromJson()
+			.then(photos => {
+				const photosDataUpdated = [newPhoto, ...photos];
+				//console.log(`🚧 [UnsplashService] addNewPhoto() #photoDataUpdated: `, photosDataUpdated);
+				fileService.writeToJSON(photosDataUpdated);
+			})
+			.catch(err => console.log(`🚫  [UnsplashService] addNewPhoto() #err: `, err))
 
-		const photosJsonString = JSON.stringify(photosDataUpdated);
-		//		console.log(`🏁 photoJsonString: `, photosJsonString);
-		console.log(`🏁 photoUpdated: `, photosDataUpdated);
+	}
 
-		fs.writeFile(targetDBFilePath, photosJsonString, (err) => {
-			if (err) { console.log(`🚫 readFile() db.json failed #err: ${err}`); return; }
-			console.log(`📥 db.json updated`);
-		});
+	function deletePhoto(id) {
+		console.log(`🚧 [UnsplashService] deletePhoto() #id: ${id} `);
+		fileService
+			.readFromJson()
+			.then(photos => {
+				const photosDataUpdated = photos.filter(it => it.id !== id);
+				console.log(`🚧 [UnsplashService] deletePhoto() #photoDataUpdated: `, photosDataUpdated);
+				fileService.writeToJSON(photosDataUpdated);
+			})
+			.catch(err => console.log(`🚫  [UnsplashService] deletePhoto() #err: `, err))
 	}
 
 	return {
 		loadAllPhotos,
-		saveNewPhoto
+		saveNewPhoto,
+		deletePhoto
 	}
 
 })();
