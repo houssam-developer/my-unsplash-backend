@@ -14,7 +14,7 @@ const isNotUnknown = x => isNotNull(x) && isNotUndefined(x);
 const isArray = (a = []) => Array.isArray(a);
 const isEmptyArray = (a = []) => a.length ? false : true;
 const isNotEmptyArray = a => !isEmptyArray(a);
-const isValidArray = a => isNotNull(a) && isNotUndefined(a) && isArray(a) && isNotEmptyArray(a);
+const isValidArray = a => isArray(a) && isNotEmptyArray(a);
 
 // types
 const isBoolean = x => typeof x === "boolean" || x.constructor === Boolean;
@@ -52,7 +52,7 @@ const isString = s => {
 
 const isNotEmptyString = s => s.length !== 0;
 
-const isValidString = s => isNotNull(s) && isNotUndefined(s) && isString(s) && isNotEmptyString(s);
+const isValidString = s => isString(s) && isNotEmptyString(s);
 
 // conversions
 const isBooleanFromString = s => {
@@ -67,4 +67,50 @@ const isNumberFromString = s => {
 		console.log(`🚫 isNumberFromString() #err: `, err);
 		return false;
 	}
+}
+
+
+// --------------------------------------------------------------------------------------------------
+// 🔹 URL
+// --------------------------------------------------------------------------------------------------
+const isUrl = s => {
+	console.log(`\t\t|__ 🚧 isUrl #s: `, s);
+	try {
+		//TODO: DO more validation to check url 
+		//let url = new URL(s);
+		//return url.protocol === 'http:' || url.protocol === 'https:';
+		let urlRegex = /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
+		return urlRegex.test(s);
+	}
+	catch (ex) {
+		console.log(`\t\t|__🚫 isUrl() #ex: `, ex);
+		return false;
+	}
+}
+
+const isValidUrl = s => isValidString(s) && isUrl(s)
+
+module.exports = {
+	isNull,
+	isNotNull,
+	isUndefined,
+	isNotUndefined,
+	isUnknown,
+	isNotUnknown,
+	isArray,
+	isEmptyArray,
+	isNotEmptyArray,
+	isBoolean,
+	isNumber,
+	isNegativeNumber,
+	isPositiveNumber,
+	convertToPositiveNumber,
+	isString,
+	isNotEmptyString,
+	isBooleanFromString,
+	isNumberFromString,
+	isValidString,
+	isValidArray,
+	isValidNumber,
+	isValidUrl
 }
