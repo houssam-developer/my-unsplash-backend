@@ -1,6 +1,6 @@
 const express = require('express');
 const unsplashService = require('../../domain/UnsplashService');
-const { assertString } = require('../../utils/common-assertions');
+const { assertString, assertURL } = require('../../utils/common-assertions');
 const router = express.Router();
 
 
@@ -14,7 +14,32 @@ router.post('/', (req, res) => {
 	console.log(`📡 req: `, req.body);
 
 	const photo = req.body;
-	console.log(`⏰ #: `, assertString('hi'));
+	if (!photo) {
+		console.log(`📡 [PhotoController] post() photo -> isUnknown`);
+		return res.send({
+			assertion: {
+				status: 'failed',
+				cause: 'object'
+			}
+		});
+	}
+	if (!assertString(photo.label)) {
+		return res.send({
+			assertion: {
+				status: 'failed',
+				cause: 'label'
+			}
+		});
+	}
+	if (!assertURL(photo.url)) {
+		return res.send({
+			assertion: {
+				status: 'failed',
+				cause: 'url'
+			}
+		});
+
+	}
 
 	// check photo
 	// save photo
