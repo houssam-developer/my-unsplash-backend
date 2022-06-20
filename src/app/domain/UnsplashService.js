@@ -38,8 +38,8 @@ const unsplashService = (function () {
 			id: uuidv4(),
 			label: photo.label,
 			url: photo.url
-
 		};
+
 		fileService
 			.readFromJson()
 			.then(photos => {

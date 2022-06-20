@@ -27,45 +27,6 @@ const assertIsValidString = x => assertCommon({ x, isValidFn: isValidString });
 const assertIsValidArray = x => assertCommon({ x, isValidFn: isValidArray });
 const assertIsValidURL = x => assertCommon({ x, isValidFn: isValidUrl });
 
-// const isAssertionStringFailed = (targetVal) => isAssertionFailed({ targetVal, isNotValidFn: isNotValidAttributeAsString });
-// const isAssertionPlayRateFailed = (targetVal) => isAssertionFailed({ targetVal, isNotValidFn: isNotNumberFromString });
-// const isAssertionEffectFailed = (targetVal) => isAssertionFailed({ targetVal, isNotValidFn: isNotValidAnimationAttributeEffect });
-// const isAssertionURLFailed = (targetVal) => isAssertionFailed({ targetVal, isNotValidFn: isNotValidURL });
-// const isAssertionExpanseFailed = (targetVal) => isAssertionFailed({ targetVal, isNotValidFn: isNotValidExpanseValue });
-// const isAssertionNumberAsStringFailed = (targetVal) => isAssertionFailed({ targetVal, isNotValidFn: isNotNumberFromString });
-
-// // MULTIPLE
-// const isAssertionStringMultipleFailed = ({ newVal, attrVal, defaultVal }) => {
-// 	console.log(`\t|__ 🛃 isAssertionStringMultipleFailed()` );
-
-// 	let localVal = newVal;
-// 	if (isAssertionStringFailed(localVal)) { localVal = attrVal; }
-// 	if (isAssertionStringFailed(localVal)) { localVal = defaultVal; }
-
-// 	return localVal;
-// }
-
-// const isAssertionExpanseMultipleFailed = ({ newVal, attrVal, defaultVal }) => {
-// 	console.log(`\t|__ 🛃 isAssertionExpanseMultipleFailed()` );
-// 	let localVal = newVal;
-// 	if (isAssertionExpanseFailed(localVal)) { localVal = attrVal; }
-// 	if (isAssertionExpanseFailed(localVal)) { localVal = defaultVal; }
-
-// 	return localVal;
-// }
-
-// const isAssertionButtonTypeFailed = (argumentVal) => {
-// 	console.log(`\t\t|__ 🛃 isAssertionButtonTypeFailed() #argumentVal: ${argumentVal}` );
-
-// 	if (isAssertionStringFailed(argumentVal)) { return true; }
-// 	// if present return false;
-// 	let result = Object.values(ButtonType).some( it => it === argumentVal);
-
-// 	console.log(`\t\t\t|__ 🛃 isAssertionButtonTypeFailed() ButtonType.some(${argumentVal}) >>> #result: ${result}` );
-
-// 	return !result;
-// }
-
 
 module.exports = {
 	assertIsValidString,
