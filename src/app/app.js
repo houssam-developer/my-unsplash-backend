@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
+const schedule = require('node-schedule');
 const photoController = require('./presentation/controllers/photoController');
+const fileService = require('./domain/FileService');
 
 
 function startup() {
@@ -12,9 +14,16 @@ function startup() {
 	app.use('/photos', photoController);
 
 
+	let mySchedule;
 
 	const PORT = 8080;
-	app.listen(PORT, () => console.log('Server Started...'));
+	app.listen(PORT, () => {
+		console.log('Server Started...');
+		schedule.scheduleJob('*/1 * * * *', () => {
+			fileService.resetData();
+			// if failed send email 
+		});
+	});
 }
 
 module.exports = startup;

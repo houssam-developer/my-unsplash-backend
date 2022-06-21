@@ -4,6 +4,29 @@ const { resolve } = require('path');
 
 const fileService = (function () {
 	const targetDBFilePath = getPathString([rootApp, 'src', 'app', 'data', 'db.json']);
+	const targetDBFileBackupPath = getPathString([rootApp, 'src', 'app', 'data', 'db-backup.json']);
+
+	function resetData() {
+		console.log(`🚧 [FileService] resetData() `);
+		try {
+			fs.readFile(targetDBFileBackupPath, 'utf-8', (err, data) => {
+				if (err) {
+					console.log(`🚫 [FileService] resetData() -> readFile() failed #err: `, err);
+					return;
+				}
+
+				fs.writeFile(targetDBFilePath, data, (err) => {
+					if (err) {
+						console.log(`🚫 [FileService] resetData() -> writeFile() failed #err: `, err);
+						return;
+					}
+					console.log(`\t|__ 🔦 [FileService] resetData() reset data-json done! `);
+				});
+			});
+		} catch (err) {
+			console.log(`🚫 [FileService] resetData() Exception -> #err: `, err);
+		}
+	}
 
 	function getPathString(args) {
 		let pathVal = '';
@@ -66,7 +89,8 @@ const fileService = (function () {
 		getPathString,
 		getPathObject,
 		writeToJSON,
-		readFromJson
+		readFromJson,
+		resetData
 	}
 
 })();
