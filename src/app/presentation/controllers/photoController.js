@@ -48,7 +48,11 @@ router.post('/', (req, res) => {
 	if (!assertIsValidString(photo.label)) { return sendAssertion(res, 'label'); }
 	if (!assertIsValidURL(photo.url)) { return sendAssertion(res, 'url'); }
 
-	unsplashService.saveNewPhoto(req.body);
+	unsplashService
+		.saveNewPhoto(req.body)
+		.then(data => res.send({ data }))
+		.catch(err => res.send({ err }));
+
 })
 
 router.delete('/:id', (req, res) => {
@@ -57,7 +61,7 @@ router.delete('/:id', (req, res) => {
 
 	if (!assertIsValidString(photoId)) { return sendAssertion(res, 'id'); }
 
-	unsplashService.deletePhoto(photoId);
+	unsplashService.deletePhoto(photoId).then(data => res.send(data));
 });
 
 

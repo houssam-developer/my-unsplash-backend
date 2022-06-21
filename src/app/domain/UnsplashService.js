@@ -7,8 +7,6 @@ const { v4: uuidv4 } = require('uuid');
 const unsplashService = (function () {
 	console.log(`🚀 unsplashService.init() }`, rootApp);
 
-	let photosData = [];
-
 	function findAll() {
 		console.log(`🚧 [UnsplashService] loadPhotos()`);
 
@@ -55,27 +53,40 @@ const unsplashService = (function () {
 			url: photo.url
 		};
 
-		fileService
-			.readFromJson()
-			.then(photos => {
-				const photosDataUpdated = [newPhoto, ...photos];
-				//console.log(`🚧 [UnsplashService] addNewPhoto() #photoDataUpdated: `, photosDataUpdated);
-				fileService.writeToJSON(photosDataUpdated);
-			})
-			.catch(err => console.log(`🚫  [UnsplashService] addNewPhoto() #err: `, err))
+		return new Promise((resolve, reject) => {
+			fileService
+				.readFromJson()
+				.then(photos => {
+					const photosDataUpdated = [newPhoto, ...photos];
+					//console.log(`🚧 [UnsplashService] addNewPhoto() #photoDataUpdated: `, photosDataUpdated);
+					fileService
+						.writeToJSON(photosDataUpdated)
+						.then(res => resolve('ok'))
+						.catch(err => reject(err));
+				})
+				.catch(err => {
+					console.log(`🚫  [UnsplashService] addNewPhoto() #err: `, err)
+					reject(err);
+				})
+		});
 
 	}
 
 	function deletePhoto(id) {
 		console.log(`🚧 [UnsplashService] deletePhoto() #id: ${id} `);
-		fileService
-			.readFromJson()
-			.then(photos => {
-				const photosDataUpdated = photos.filter(it => it.id !== id);
-				//console.log(`🚧 [UnsplashService] deletePhoto() #photoDataUpdated: `, photosDataUpdated);
-				fileService.writeToJSON(photosDataUpdated);
-			})
-			.catch(err => console.log(`🚫  [UnsplashService] deletePhoto() #err: `, err))
+		return new Promise((resolve, reject) => {
+			fileService
+				.readFromJson()
+				.then(photos => {
+					const photosDataUpdated = photos.filter(it => it.id !== id);
+					//console.log(`🚧 [UnsplashService] deletePhoto() #photoDataUpdated: `, photosDataUpdated);
+					fileService
+						.writeToJSON(photosDataUpdated)
+						.then(data => resolve(data))
+						.catch(err => reject(err));
+				})
+				.catch(err => console.log(`🚫  [UnsplashService] deletePhoto() #err: `, err))
+		})
 	}
 
 	return {

@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const { resolve } = require('path');
 
 const fileService = (function () {
 	const targetDBFilePath = getPathString([rootApp, 'src', 'app', 'data', 'db.json']);
@@ -32,12 +33,18 @@ const fileService = (function () {
 	function writeToJSON(photosDataUpdated) {
 		console.log(`\t|__ 🚧  [FileService] writeToJson()`,);
 
-		const photosJsonString = JSON.stringify(photosDataUpdated);
-		//		console.log(`🏁 photoJsonString: `, photosJsonString);
+		return new Promise((resolve, reject) => {
+			const photosJsonString = JSON.stringify(photosDataUpdated);
+			//		console.log(`🏁 photoJsonString: `, photosJsonString);
 
-		fs.writeFile(targetDBFilePath, photosJsonString, (err) => {
-			if (err) { console.log(`🚫 readFile() db.json failed #err: ${err}`); return; }
-			console.log(`\t|__ 📥 [FileService] writeToJSON() -> db.json updated`);
+			fs.writeFile(targetDBFilePath, photosJsonString, (err) => {
+				if (err) {
+					console.log(`🚫 readFile() db.json failed #err: ${err}`); return;
+					reject(err);
+				}
+				console.log(`\t|__ 📥 [FileService] writeToJSON() -> db.json updated`);
+				resolve({ action: 'delete' });
+			});
 		});
 	}
 
