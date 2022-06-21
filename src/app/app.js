@@ -19,7 +19,7 @@ function startup() {
 	const PORT = 8080;
 	app.listen(PORT, () => {
 		console.log('Server Started...');
-		schedule.scheduleJob('*/1 * * * *', () => {
+		schedule.scheduleJob('0 0 * * *', () => {
 			fileService.resetData();
 			// if failed send email 
 		});
