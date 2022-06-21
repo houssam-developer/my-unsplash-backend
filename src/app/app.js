@@ -14,7 +14,7 @@ function startup() {
 	app.use('/photos', photoController);
 
 	const PORT = 8080;
-	app.listen(PORT, () => {
+	app.listen(process.env.PORT || PORT, () => {
 		console.log('Server Started...');
 		schedule.scheduleJob('0 0 * * *', () => {
 			fileService.resetData();
