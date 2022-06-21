@@ -10,7 +10,7 @@ function startup() {
 	app.use(cors());
 	app.use(express.json());
 
-	app.get('/', (req, res) => { return res.send('Hello World!'); });
+	app.get('/', (req, res) => res.json({ msg: 'welcome to my-unsplash api' }));
 	app.use('/photos', photoController);
 
 	const PORT = 8080;
