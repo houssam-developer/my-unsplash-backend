@@ -13,9 +13,6 @@ function startup() {
 	app.get('/', (req, res) => { return res.send('Hello World!'); });
 	app.use('/photos', photoController);
 
-
-	let mySchedule;
-
 	const PORT = 8080;
 	app.listen(PORT, () => {
 		console.log('Server Started...');

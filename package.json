@@ -4,21 +4,13 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "nodemon index.js "
+		"start": "node index.js "
 	},
-	"nodemonConfig": {
-		"ignore": [
-			"src/app/data/*.json",
-			"public/javascripts/*.js"
-		]
-	},
-	"author": "",
-	"license": "ISC",
+	"author": "houssam-developer",
+	"license": "",
 	"dependencies": {
 		"cors": "^2.8.5",
-		"ejs": "^3.1.8",
 		"express": "^4.18.1",
-		"multer": "^1.4.5-lts.1",
 		"node-schedule": "^2.1.0",
 		"uuid": "^8.3.2"
 	}
